@@ -1,35 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from "react-router";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.js";
+import Home from "./components/Home";
+import LoginForm from "./components/LoginForm";
+import RegistrationForm from "./components/RegistrationForm";
+import CategoryList from "./components/CategoryList";
+//import BookList from "./components/BookList";
+//import ShoppingCart from "./components/ShoppingCart";
+//import OrderList from "./components/OrderList";
+//import BookForm from "./components/BookForm";
+import UserDashboard from "./components/UserDashboard";
+import UserLayout from "./components/UserLayout";
+import { createContext, useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+export const AuthContext = createContext();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+function getUserFromSessionStorage() {
+	const userJson = sessionStorage.getItem("user");
+	const user = JSON.parse(userJson);
+	return user;
 }
 
-export default App
+function App() {
+	const [user, setUser] = useState(getUserFromSessionStorage());
+
+	return (
+		<div className="container">
+			<AuthContext.Provider value={{ user, setUser }}>
+				<Routes>
+					{/* /url */}
+					<Route index="true" element={<Home />} />
+					<Route path="/login" element={<LoginForm />} />
+					<Route path="/register" element={<RegistrationForm />} />
+					{/* /user/url */}
+					<Route path="/user" element={<UserLayout />}>
+						<Route index="/user-dashboard" element={<UserDashboard />} />
+						<Route path="categories" element={<CategoryList />} />
+						{/* <Route path="books" element={<BookList />} /> */}
+						{/* <Route path="cart" element={<ShoppingCart />} /> */}
+						{/* <Route path="orders" element={<OrderList />} /> */}
+						{/* o<Route path="newbook" element={<BookForm />} /> */}
+					</Route>
+				</Routes>
+			</AuthContext.Provider>
+		</div>
+	);
+}
+
+export default App;

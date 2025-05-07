@@ -1,24 +1,24 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { userSignIn } from "../services/users";
-import { AuthContext } from "../App";
+
 
 const LoginForm = () => {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
-	//const { setUser } = useContext(AuthContext);
+  //  const { setUser } = useContext(AuthContext);
 
 	const handleEmailChange = (e) => {
 		setEmail(e.target.value);
 	};
-	const handlePasswdChange = (e) => setPasswd(e.target.value);
+	const handlePasswdChange = (e) => setPassword(e.target.value);
 
-	const handleSignInClick = async (e) => {
+	const handleSignInClick =  () => {
 		try {
 			// validate user login using REST service
-			const user = await userSignIn(email, passwd);
+			  userSignIn(email, password);
 			// store user object + jwt token (in sessionStorage)
 			//ssessionStorage.setItem("user", JSON.stringify(user));
 			// update the context
@@ -27,7 +27,7 @@ const LoginForm = () => {
 			// after successful login, go to user dashboard
 			navigate("/user");
 		} catch (err) {
-			toast.error("Invalid credentials.");
+			toast.error("Invalid credentials."+err.name);
 		}
 	};
 

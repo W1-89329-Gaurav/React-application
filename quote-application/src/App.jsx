@@ -11,22 +11,23 @@ import CategoryList from "./components/CategoryList";
 //import BookForm from "./components/BookForm";
 import UserDashboard from "./components/UserDashboard";
 import UserLayout from "./components/UserLayout";
-import { createContext, useState } from "react";
+//import { useState } from "react";
+//import { createContext, useState } from "react";
 
-export const AuthContext = createContext();
+// export const AuthContext = createContext();
 
-function getUserFromSessionStorage() {
-	const userJson = sessionStorage.getItem("user");
-	const user = JSON.parse(userJson);
-	return user;
-}
+// function getUserFromSessionStorage() {
+// 	const userJson = sessionStorage.getItem("user");
+// 	const user = JSON.parse(userJson);
+// 	return user;
+// }
 
 function App() {
-	const [user, setUser] = useState(getUserFromSessionStorage());
+	//const [user, setUser] = useState ("");
 
 	return (
 		<div className="container">
-			<AuthContext.Provider value={{ user, setUser }}>
+			
 				<Routes>
 					{/* /url */}
 					<Route index="true" element={<Home />} />
@@ -42,7 +43,7 @@ function App() {
 						{/* o<Route path="newbook" element={<BookForm />} /> */}
 					</Route>
 				</Routes>
-			</AuthContext.Provider>
+			
 		</div>
 	);
 }

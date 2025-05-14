@@ -28,3 +28,4 @@ export async function userSignUp(firstName, lastName, email, password, phoneNo, 
 	const data = result.data;
 	return data;
 }
+
